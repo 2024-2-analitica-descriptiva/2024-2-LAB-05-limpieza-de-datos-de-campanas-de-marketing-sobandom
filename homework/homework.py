@@ -7,6 +7,12 @@ Escriba el codigo que ejecute la accion solicitada.
 import pandas as pd
 import zipfile
 import os
+from pathlib import Path
+
+ #crear rutas de input y output
+input_ruta='files/input/'
+output_ruta='files/output/'
+os.makedirs(output_ruta, exist_ok=True)
 
 
 def clean_campaign_data():
@@ -53,14 +59,9 @@ def clean_campaign_data():
 
 
     """
-    #crear rutas de input y output
-    input_ruta='/files/input/'
-    output_ruta="../files/output/"
-    os.makedirs(output_ruta, exist_ok=True)
-
     #leer archivos csv.zip
     data=[]
-    
+
     for file_name in os.listdir(input_ruta):
         with zipfile.ZipFile(input_ruta+file_name, 'r') as z:
             for csv_file in z.namelist():
@@ -68,7 +69,6 @@ def clean_campaign_data():
                     df=pd.read_csv(f)
                     if 'client_id' in df.columns:
                         data.append(df)
-
 
     data_frame=pd.concat(data)
 
